@@ -8,10 +8,11 @@ class Command {
   }
 }
 
-Command.prototype.add = function(command, action) {
+Command.prototype.add = function(command, action, perms) {
   this.list.push({
     command: command,
-    action: action
+    action: action,
+    permissions: perms || []
   });
 }
 
@@ -23,6 +24,15 @@ Command.prototype.help = function() {
     console.log('   ' + (i + 1) + '-  ' + this.list[i].command);
   }
   console.log('')
+}
+
+Command.allow = function (perm, author) {
+  for (let i = 0; i< perm.length; i++) {
+    if (perm[i] === author) {
+      return true;
+    }
+  }
+  return false;
 }
 
 Command.parse = function(text) {
@@ -46,13 +56,28 @@ Command.prototype.handle = function(msg) {
       // Iterate through list of commands
       for (let i = 0; i < this.list.length; i++) {
         if (this.list[i].command === user_prompt) {
-          // Run the action referenced
-          let result = this.list[i].action.apply(1, content.arguments);
+          let result;
+          let action = this.list[i].action;
+          const isAsync = action.constructor.name === "AsyncFunction";
+          if (this.list[i].permissions.length === 0 || Command.allow(this.list[i].permissions, msg.author.username)) {
+            // Run the action referenced
+            if (isAsync) {
+              action.apply(1, content.arguments);       
+            } else {
+              result = action.apply(1, content.arguments);       
+            }
+                 
+          } else {
+            console.log(msg)
+            result = 'You do not posses the rights to this command... ';
+          }
           // Send result
           if (typeof result !== 'string') {
             result = JSON.stringify(result);
           }
-          msg.channel.send('\`\`\`\n' + result + '\`\`\`\n');
+          if (result !== undefined) {
+            msg.channel.send('\`\`\`\n' + result + '\`\`\`');
+          }
         }
       }
     } else if (

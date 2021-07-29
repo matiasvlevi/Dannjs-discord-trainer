@@ -6,6 +6,7 @@ let settings = dotenv.config().parsed;
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
+const makeDann = require('./src/ai');
 const fs = require('fs');
 
 // Dannjs neural network library
@@ -13,15 +14,8 @@ require('dannjs');
 let filesnb = fs.readdirSync('./models/').length;
 let ai;
 if (filesnb === 0) {
-  // Create the neural network
-  ai = new Dann(784, 11);
-  ai.addHiddenLayer(256, 'leakyReLU');
-  ai.addHiddenLayer(128, 'leakyReLU');
-  ai.addHiddenLayer(32, 'leakyReLU');
-  ai.makeWeights(-1, 1);
-  ai.lr = 0.0000001;
+  ai = makeDann();
 } else {
-
   let name = 'Dann-model-' + (filesnb - 1) + '.json';
   let model = JSON.parse(fs.readFileSync('./models/' + name, 'utf8'));
   console.log('Loaded ' + name + ' model')
