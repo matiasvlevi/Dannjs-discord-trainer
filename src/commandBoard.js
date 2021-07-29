@@ -1,6 +1,13 @@
 // dotenv values
+const { Message } = require('discord.js');
 let dotenv = require('dotenv');
 let settings = dotenv.config().parsed;
+
+const test = require('./test');
+const delay = require('./delay');
+const getNum = require('./getnum');
+const log = require('./log');
+const dataset = require('./dataset');
 
 class Command {
   constructor() {
@@ -50,25 +57,30 @@ Command.prototype.handle = function(msg) {
     let text = msg.content;
     // If starts by prefix, iterate through command list
     if (text[0] === settings.PREFIX) {
+      log('<'+msg.author.username+'> ' + text);
       // Parse user prompt
       let content = Command.parse(text);
       let user_prompt = content.command;
       // Iterate through list of commands
       for (let i = 0; i < this.list.length; i++) {
         if (this.list[i].command === user_prompt) {
+
           let result;
           let action = this.list[i].action;
           const isAsync = action.constructor.name === "AsyncFunction";
           if (this.list[i].permissions.length === 0 || Command.allow(this.list[i].permissions, msg.author.username)) {
             // Run the action referenced
             if (isAsync) {
-              action.apply(1, content.arguments);       
+              try {
+                action.apply(1, content.arguments);       
+              } catch (e) {
+                message(e);
+              }
             } else {
               result = action.apply(1, content.arguments);       
             }
                  
           } else {
-            console.log(msg)
             result = 'You do not posses the rights to this command... ';
           }
           // Send result
@@ -77,6 +89,7 @@ Command.prototype.handle = function(msg) {
           }
           if (result !== undefined) {
             msg.channel.send('\`\`\`\n' + result + '\`\`\`');
+            log('<Trainer Billy> ' + result);
           }
         }
       }
@@ -104,7 +117,7 @@ Command.prototype.handle = function(msg) {
             msg.channel.send(print.toString());
           }
         }
-        oldlog(' In discord channel: ' + t);
+        log(' In discord channel: ' + t);
       };
       console.log = hybridlog;
       try {
