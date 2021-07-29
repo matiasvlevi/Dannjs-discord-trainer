@@ -49,7 +49,10 @@ Command.prototype.handle = function(msg) {
           // Run the action referenced
           let result = this.list[i].action.apply(1, content.arguments);
           // Send result
-          msg.channel.send(JSON.stringify(result));
+          if (typeof result !== 'string') {
+            result = JSON.stringify(result);
+          }
+          msg.channel.send('\`\`\`\n' + result + '\`\`\`\n');
         }
       }
     } else if (
@@ -82,8 +85,8 @@ Command.prototype.handle = function(msg) {
       try {
         eval(content)
       } catch (e) {
-        hybridlog(e);
-        msg.channel.send('\`\`\`\n' + e + '\`\`\`\n');
+        //hybridlog(e);
+        channel.send('\`\`\`\n' + e + '\`\`\`\n');
       }
       console.log = oldlog;
     }
