@@ -1,6 +1,7 @@
 # Dannjs-discord-trainer
 
 <br/>
+
 Create a file named `.env` in the main directory and add this
 ```
 TOKEN=your_discord_bot_token
