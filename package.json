@@ -1,10 +1,10 @@
 {
-  "name": "Trainer-Billy",
+  "name": "Dannjs-discord-trainer",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "setup": "npm ci & mkdir models"
   },
   "keywords": [],
   "author": "",
