@@ -1,6 +1,12 @@
 # Dannjs-discord-trainer
 
 <br/>
+Create your discord bot on the [dev portal](https://discord.com/developers/applications)
+
+Make sure to copy the bot token
+![](https://i.ibb.co/jg8xYXd/token.png)
+
+<br/>
 
 Create a file named `.env` in the main directory and add this
 ```
