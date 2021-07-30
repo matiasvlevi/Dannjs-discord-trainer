@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "setup": "npm ci & mkdir models"
+    "setup": "npm ci & mkdir models",
+    "start": "node index.js > logs.log"
   },
   "keywords": [],
   "author": "",
