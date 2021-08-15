@@ -47,9 +47,6 @@ command.add('train', async (batches) => {
       );
       sum += nn.loss;
     }
-    setTimeout(function() {
-      //your code to be executed after 1 second
-    }, 100);
     if (index >= dataset.traindata.length-1) {
       
       let batches_left = batches - index;
@@ -70,7 +67,7 @@ command.add('train', async (batches) => {
     total_passed++;
     log('['+total_passed+'/'+batches+'] batches completed');
     // Let the system pause for a while after a batch
-    await delay(100);
+    // await delay(100);
   }
 
   let end_time = new Date().getTime();

@@ -23,6 +23,6 @@ module.exports = function test(data) {
     } 
     index++;
   }
-  let percent = Math.round((acc/(index*data[0].batch.length))*100000)/1000;
+  let percent = Math.round((acc/(index*data[0].batch.length))*100000)/100;
   return percent;
 }

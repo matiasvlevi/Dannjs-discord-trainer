@@ -20,7 +20,6 @@ if (filesnb === 0) {
   let model = JSON.parse(fs.readFileSync('./models/' + name, 'utf8'));
   console.log('Loaded ' + name + ' model')
   ai = Dann.createFromJSON(model);
-  ai.lr = 0.0000001;
 }
 // Store as global variable
 global.nn = ai;
